@@ -6,6 +6,7 @@
   "author": "Gianluca Venturini <gianluca.91@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "nodemon": "^2.0.16"
   }
 }
